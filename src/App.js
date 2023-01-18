@@ -1,25 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPucara } from './redux/asyncActions';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useDispatch();
+	const items = useSelector(state => state.pucara.items)
+
+	React.useEffect(() => {
+		dispatch(fetchPucara('BVEES830006,BVBES54011'))
+	}, [dispatch])
+
+
+	return (
+		<div className="App">
+			<button className="btn"></button>
+			{/* <div >{value.image}</div>
+				<div >{value.price}</div>
+
+				<div >{value.name}</div> */}
+			{/* <div>{items && JSON.stringify(items[0].cover.small.url)}</div>
+			<img src={items && items.products[0].cover.small.url} alt='' /> */}
+		</div>
+	);
 }
 
 export default App;
