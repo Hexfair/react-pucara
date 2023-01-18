@@ -8,14 +8,22 @@ function App() {
 	const dispatch = useDispatch();
 	const items = useSelector(state => state.pucara.items)
 
+	const [text, setText] = React.useState('')
+
 	React.useEffect(() => {
-		dispatch(fetchPucara('BVEES830006,BVBES54011'))
+		dispatch(fetchPucara('BVEES830006,HDEES113.57'))
 	}, [dispatch])
+
+
+	const parsTextArea = () => {
+
+	}
 
 
 	return (
 		<div className="App">
-			<button className="btn"></button>
+			<button className="btn" onClick={parsTextArea}></button>
+			<textarea></textarea>
 			{/* <div >{value.image}</div>
 				<div >{value.price}</div>
 
