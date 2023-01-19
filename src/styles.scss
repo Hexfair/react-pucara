@@ -56,9 +56,9 @@ p {
 	
 	.itemTitle {
 		font-size: 15px;
-		font-weight: 300;
+		font-weight: 500;
 		color: rgb(41, 2, 68);
-		margin-bottom: 10px;
+		margin-bottom: 3px;
 		height: 100%;
 	}
 
@@ -70,7 +70,7 @@ p {
 
 		.itemReference {
 			font-size: 13px;
-			font-weight: 300;
+			font-weight: 400;
 			color: rgb(116, 114, 114);
 		}
 
@@ -105,4 +105,10 @@ p {
 			background-color: rgb(16, 45, 142);
 		}
 	}
+}
+
+.translate {
+	margin-bottom: 15px;
+	font-size: 12px;
+	color: rgb(155, 151, 151);
 }

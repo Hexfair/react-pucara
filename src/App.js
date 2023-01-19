@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPucara } from './redux/pucaraSlice';
-import axios from "axios";
+import { RusLangItem } from './components/RusLangItem';
 
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig')
-const PORTION = 20;
+const PORTION = 4;
 //=========================================================================================================================
 
 function App() {
@@ -24,8 +24,14 @@ function App() {
 	let arrayCodesSlice = arrayCodes.slice(startValue, endValue);
 	let stringCodes = arrayCodesSlice.join(',');
 
+	const [qwe, setQwe] = React.useState(false);
+	//console.log('endValue', endValue);
+
+	//const qwe = React.useRef(false);
+	console.log(items);
+
 	const onClickShowMore = () => {
-		dispatch(fetchPucara(stringCodes))
+		dispatch(fetchPucara(stringCodes));
 		setStartValue(prev => prev + PORTION);
 		if (!(endValue + PORTION > arrayCodes.length)) {
 			setEndValue(prev => prev + PORTION);
@@ -33,25 +39,31 @@ function App() {
 			setEndValue(arrayCodes.length);
 		}
 	}
+	console.log('rerender');
 
-	const onClickTimes = () => {
-		let timeId = setInterval(onClickShowMore, 5000);
-		if (endValue === arrayCodes.length) {
-			clearInterval(timeId);
-		}
+	const fff = async () => {
+		onClickShowMore();
+		setQwe(!qwe);
+
 	}
 
-	var sourceText = 'Malta BelgaStar 33 cl Bandeja x 24';
-	var sourceLang = 'es';
-	var targetLang = 'ru';
+	const onClickTimes = () => {
+		const timerId = setInterval(fff, 4000);
+	}
+
+
+
+	// var sourceText = 'Malta BelgaStar 33 cl Bandeja x 24';
+	// var sourceLang = 'es';
+	// var targetLang = 'ru';
 
 	// var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
 
-	const onClickLang = async () => {
-		var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
-		const { data } = await axios.get(url);
-		return data[0][0][0];
-	}
+	// const onClickLang = async () => {
+	// 	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
+	// 	const { data } = await axios.get(url);
+	// 	return data[0][0][0];
+	// }
 
 
 
@@ -64,12 +76,13 @@ function App() {
 				onChange={onChangeTextArea}>
 			</textarea>
 			<div className='content'>
-				{items && items.map((obj) =>
+				{items && items.map((obj, index) =>
 					<div key={obj.reference} className='itemBlock'>
 						<div className='itemImage'>
 							<img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
 						</div>
 						<p className='itemTitle'>{obj.name}</p>
+						<RusLangItem text={obj.name} idx={index} />
 						<div className='itemBottom'>
 							<span className='itemReference'>{obj.reference}</span>
 							<span className='itemPrice'>{obj.price}</span>
@@ -79,8 +92,6 @@ function App() {
 			<div className='button'>
 				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
 				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
-				<button className="btn" onClick={onClickLang}>Lang</button>
-
 			</div>
 
 		</div>
