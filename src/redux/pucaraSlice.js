@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPucara } from './asyncActions';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 //=========================================================================================================================
+
+export const fetchPucara = createAsyncThunk(
+	'pucara/fetchPucara',
+	async (params) => {
+		const { data } = await axios.get('https://tienda.pucara.net/es/busqueda?controller=search&s=' + params);
+		return data;
+	}
+)
 
 const initialState = {
 	items: [],
@@ -15,12 +24,17 @@ export const pucaraSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(fetchPucara.pending, (state) => {
 			state.status = 'loading';
-			state.items = initialState.items;
 		});
 		builder.addCase(fetchPucara.fulfilled, (state, action) => {
 			const arr = action.payload.products;
-			arr.forEach((item, index) => {
-				state.items.push(item);
+			arr.forEach((item) => {
+				const obj = {
+					name: item.name,
+					price: item.price,
+					reference: item.reference,
+					imageUrl: item.cover.medium.url || item.cover.small.url
+				}
+				state.items.push(obj);
 			});
 			state.status = 'success';
 		});
@@ -30,6 +44,5 @@ export const pucaraSlice = createSlice({
 		});
 	},
 })
-
 
 export default pucaraSlice.reducer

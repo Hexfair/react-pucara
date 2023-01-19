@@ -1,35 +1,71 @@
-import './App.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPucara } from './redux/asyncActions';
+import { fetchPucara } from './redux/pucaraSlice';
+//=========================================================================================================================
 
+const regex = new RegExp(/,/, 'ig')
+const PORTION = 20;
+//=========================================================================================================================
 
 function App() {
 	const dispatch = useDispatch();
 	const items = useSelector(state => state.pucara.items)
 
-	const [text, setText] = React.useState('')
+	// Логика получения данных из текстареа
+	const [codes, setCodes] = React.useState('')
+	const onChangeTextArea = (event) => setCodes(event.target.value);
+	const arrayCodes = codes.replace(regex, '.').split('\n')
 
-	React.useEffect(() => {
-		dispatch(fetchPucara('BVEES830006,HDEES113.57'))
-	}, [dispatch])
+	// Логика получения порций
+	const [startValue, setStartValue] = React.useState(0);
+	const [endValue, setEndValue] = React.useState(PORTION);
+	let arrayCodesSlice = arrayCodes.slice(startValue, endValue);
+	let stringCodes = arrayCodesSlice.join(',');
 
-
-	const parsTextArea = () => {
-
+	const onClickShowMore = () => {
+		dispatch(fetchPucara(stringCodes))
+		setStartValue(prev => prev + PORTION);
+		if (!(endValue + PORTION > arrayCodes.length)) {
+			setEndValue(prev => prev + PORTION);
+		} else {
+			setEndValue(arrayCodes.length);
+		}
 	}
 
+	const onClickTimes = () => {
+		let timeId = setInterval(onClickShowMore, 5000);
+		if (endValue === arrayCodes.length) {
+			clearInterval(timeId);
+		}
+	}
 
 	return (
-		<div className="App">
-			<button className="btn" onClick={parsTextArea}></button>
-			<textarea></textarea>
-			{/* <div >{value.image}</div>
-				<div >{value.price}</div>
+		<div className='app'>
+			<textarea
+				className='textarea'
+				placeholder='Вставьте список артикулов...'
+				value={codes}
+				onChange={onChangeTextArea}>
+			</textarea>
+			<div className='content'>
+				{items && items.map((obj) =>
+					<div key={obj.reference} className='itemBlock'>
+						<div className='itemImage'>
+							<img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
+						</div>
+						<p className='itemTitle'>{obj.name}</p>
+						<div className='itemBottom'>
+							<span className='itemReference'>{obj.reference}</span>
+							<span className='itemPrice'>{obj.price}</span>
+						</div>
+					</div>)}
+			</div>
+			<div className='button'>
+				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
+				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
 
-				<div >{value.name}</div> */}
-			{/* <div>{items && JSON.stringify(items[0].cover.small.url)}</div>
-			<img src={items && items.products[0].cover.small.url} alt='' /> */}
+			</div>
+
 		</div>
 	);
 }
