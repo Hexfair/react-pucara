@@ -7,7 +7,30 @@ export const fetchPucara = createAsyncThunk(
 	'pucara/fetchPucara',
 	async (params) => {
 		const { data } = await axios.get('https://tienda.pucara.net/es/busqueda?controller=search&s=' + params);
-		return data;
+
+		let newArray = [];
+		data.products.forEach(async (item) => {
+			const text = item.name;
+			const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=ru&dt=t&q=' + encodeURI(text);
+			const translate = await axios.get(url);
+			item.rusLang = translate.data[0][0][0];
+			newArray.push(item);
+		});
+
+		//console.log(newArray);
+
+		// const text = data.products[0].name;
+		// let url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=ru&dt=t&q=' + encodeURI(text);
+		// const translate = await axios.get(url);
+
+		// const result = { ...data, data.products[0]: translate.data[0][0][0] }
+		// console.log(result);
+		// return data[0][0][0];
+
+
+		//console.log(data);
+
+		return newArray;
 	}
 )
 
@@ -26,8 +49,9 @@ export const pucaraSlice = createSlice({
 			state.status = 'loading';
 		});
 		builder.addCase(fetchPucara.fulfilled, (state, action) => {
-			const arr = action.payload.products;
+			const arr = action.payload;
 			arr.forEach((item) => {
+				console.log(item);
 				const obj = {
 					name: item.name,
 					price: item.price,
