@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPucara } from './redux/pucaraSlice';
+import axios from "axios";
+
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig')
@@ -39,6 +41,20 @@ function App() {
 		}
 	}
 
+	var sourceText = 'Malta BelgaStar 33 cl Bandeja x 24';
+	var sourceLang = 'es';
+	var targetLang = 'ru';
+
+	// var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
+
+	const onClickLang = async () => {
+		var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
+		const { data } = await axios.get(url);
+		return data[0][0][0];
+	}
+
+
+
 	return (
 		<div className='app'>
 			<textarea
@@ -63,6 +79,7 @@ function App() {
 			<div className='button'>
 				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
 				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
+				<button className="btn" onClick={onClickLang}>Lang</button>
 
 			</div>
 
