@@ -6,7 +6,7 @@ import { RusLangItem } from './components/RusLangItem';
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig')
-const PORTION = 4;
+const PORTION = 3;
 //=========================================================================================================================
 
 function App() {
@@ -24,14 +24,12 @@ function App() {
 	let arrayCodesSlice = arrayCodes.slice(startValue, endValue);
 	let stringCodes = arrayCodesSlice.join(',');
 
-	const [qwe, setQwe] = React.useState(false);
-	//console.log('endValue', endValue);
+	const qwe = React.useRef();
 
-	//const qwe = React.useRef(false);
-	console.log(items);
+	const isMounted = React.useRef(false);
+
 
 	const onClickShowMore = () => {
-		dispatch(fetchPucara(stringCodes));
 		setStartValue(prev => prev + PORTION);
 		if (!(endValue + PORTION > arrayCodes.length)) {
 			setEndValue(prev => prev + PORTION);
@@ -39,19 +37,21 @@ function App() {
 			setEndValue(arrayCodes.length);
 		}
 	}
-	console.log('rerender');
 
-	const fff = async () => {
-		onClickShowMore();
-		setQwe(!qwe);
-
-	}
+	React.useEffect(() => {
+		if (isMounted.current === true) {
+			dispatch(fetchPucara(stringCodes));
+		}
+		isMounted.current = true;
+	}, [dispatch, stringCodes])
 
 	const onClickTimes = () => {
-		const timerId = setInterval(fff, 4000);
+		qwe.current = setInterval(onClickShowMore, 5000);
 	}
 
-
+	if (endValue === arrayCodes.length) {
+		clearInterval(qwe.current);
+	}
 
 	// var sourceText = 'Malta BelgaStar 33 cl Bandeja x 24';
 	// var sourceLang = 'es';
