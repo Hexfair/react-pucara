@@ -27,6 +27,9 @@ export const pucaraSlice = createSlice({
 		builder.addCase(fetchPucara.fulfilled, (state, action) => {
 			const arr = action.payload.products;
 			arr.forEach((item) => {
+				if (!item.cover || !item.name || item.reference) {
+					console.log('Ошибка загрузки', item.reference || item.name);
+				}
 				const obj = {
 					name: item.name || 'Ошибка загрузки',
 					price: item.price || 'Ошибка загрузки',
