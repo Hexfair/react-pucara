@@ -28,10 +28,10 @@ export const pucaraSlice = createSlice({
 			const arr = action.payload.products;
 			arr.forEach((item) => {
 				const obj = {
-					name: item.name,
-					price: item.price,
-					reference: item.reference,
-					imageUrl: item.cover.medium.url || item.cover.small.url
+					name: item.name || 'Ошибка загрузки',
+					price: item.price || 'Ошибка загрузки',
+					reference: item.reference || 'Ошибка загрузки',
+					imageUrl: item.cover.medium.url || item.cover.small.url || 'Ошибка загрузки'
 				}
 				state.items.push(obj);
 			});

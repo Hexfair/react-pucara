@@ -5,7 +5,7 @@ import { RusLangItem } from './RusLangItem';
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig');
-const PORTION = 3;
+const PORTION = 30;
 
 //=========================================================================================================================
 
@@ -59,7 +59,7 @@ function App() {
 		timerId.current = setInterval(onClickShowMore, 10000);
 	};
 
-	if (finishValue.current === arrayCodes.length + 1) {
+	if (finishValue.current >= arrayCodes.length + 1) {
 		clearInterval(timerId.current);
 		alert('Парсинг завершен!');
 	};
@@ -76,7 +76,9 @@ function App() {
 				{items && items.map((obj, index) =>
 					<div key={obj.reference} className='itemBlock'>
 						<div className='itemImage'>
-							<img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
+							{obj.imageUrl !== 'Ошибка загрузки'
+								? <img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
+								: <p>Ошибка загрузки</p>}
 						</div>
 						<div className='itemLabel'>
 							<p className='itemTitle'>{obj.name}</p>
