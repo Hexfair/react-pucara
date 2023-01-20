@@ -7,35 +7,19 @@ export const fetchPucara = createAsyncThunk(
 	'pucara/fetchPucara',
 	async (params) => {
 		const { data } = await axios.get('https://tienda.pucara.net/es/busqueda?controller=search&s=' + params);
-
-
-		//console.log(newArray);
-
-		// const text = data.products[0].name;
-		// let url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=ru&dt=t&q=' + encodeURI(text);
-		// const translate = await axios.get(url);
-
-		// const result = { ...data, data.products[0]: translate.data[0][0][0] }
-		// console.log(result);
-		// return data[0][0][0];
-
-
-		//console.log(data);
-
 		return data;
 	}
-)
+);
 
 const initialState = {
 	items: [],
 	status: ''
-}
+};
 
 export const pucaraSlice = createSlice({
 	name: 'pucara',
 	initialState,
-	reducers: {
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchPucara.pending, (state) => {
 			state.status = 'loading';
@@ -58,6 +42,6 @@ export const pucaraSlice = createSlice({
 			state.items = initialState.items;
 		});
 	},
-})
+});
 
-export default pucaraSlice.reducer
+export default pucaraSlice.reducer;

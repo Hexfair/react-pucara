@@ -1,11 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRusLang } from '../redux/rusLangSlice';
 import axios from 'axios';
+//=========================================================================================================================
 
-export const RusLangItem = ({ text, idx }) => {
-	const dispatch = useDispatch();
-	//const resultLang = useSelector(state => state.language.resultLang)
+export const RusLangItem = ({ text }) => {
 	const [lang, setLang] = React.useState('')
 
 	React.useEffect(() => {
@@ -14,7 +11,7 @@ export const RusLangItem = ({ text, idx }) => {
 			setLang(data[0][0][0]);
 		}
 		fetchlang();
-	}, []);
+	}, [text]);
 
 	return (
 		<p className='translate'>{lang && lang}</p>

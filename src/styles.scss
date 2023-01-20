@@ -39,7 +39,7 @@ p {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	border-radius: 5px;
+	border-radius: 10px;
 
 	.itemImage {
 		margin-bottom: 15px;
@@ -54,12 +54,16 @@ p {
 		}
 	}
 	
+	.itemLabel {
+		margin-bottom: 3px;
+		height: 100%;
+	}
+
 	.itemTitle {
 		font-size: 15px;
 		font-weight: 500;
 		color: rgb(41, 2, 68);
 		margin-bottom: 3px;
-		height: 100%;
 	}
 
 	.itemBottom {

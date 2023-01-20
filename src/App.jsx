@@ -1,71 +1,68 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPucara } from './redux/pucaraSlice';
-import { RusLangItem } from './components/RusLangItem';
-
+import { RusLangItem } from './RusLangItem';
 //=========================================================================================================================
 
-const regex = new RegExp(/,/, 'ig')
+const regex = new RegExp(/,/, 'ig');
 const PORTION = 3;
+
 //=========================================================================================================================
 
 function App() {
 	const dispatch = useDispatch();
-	const items = useSelector(state => state.pucara.items)
+	const items = useSelector(state => state.pucara.items);
+	const isMounted = React.useRef(false);
+	const isTextareaChanged = React.useRef(false);
 
 	// Логика получения данных из текстареа
-	const [codes, setCodes] = React.useState('')
+	const [codes, setCodes] = React.useState('');
 	const onChangeTextArea = (event) => setCodes(event.target.value);
-	const arrayCodes = codes.replace(regex, '.').split('\n')
+	const arrayCodes = codes.replace(regex, '.').split('\n');
 
 	// Логика получения порций
 	const [startValue, setStartValue] = React.useState(0);
-	const [endValue, setEndValue] = React.useState(PORTION);
+	const [endValue, setEndValue] = React.useState(0);
 	let arrayCodesSlice = arrayCodes.slice(startValue, endValue);
 	let stringCodes = arrayCodesSlice.join(',');
 
-	const qwe = React.useRef();
-
-	const isMounted = React.useRef(false);
-
+	const timerId = React.useRef();
+	const finishValue = React.useRef(0);
 
 	const onClickShowMore = () => {
-		setStartValue(prev => prev + PORTION);
-		if (!(endValue + PORTION > arrayCodes.length)) {
-			setEndValue(prev => prev + PORTION);
+		if (isTextareaChanged.current === true) {
+			if ((endValue + PORTION) <= arrayCodes.length) {
+				setStartValue(prev => prev + PORTION);
+				setEndValue(prev => prev + PORTION);
+				finishValue.current = finishValue.current + PORTION;
+			} else {
+				setEndValue(arrayCodes.length + 1);
+				finishValue.current = arrayCodes.length + 1;
+			};
 		} else {
-			setEndValue(arrayCodes.length);
-		}
-	}
+			setStartValue(0);
+			setEndValue(PORTION);
+			dispatch(fetchPucara(stringCodes));
+			finishValue.current = PORTION;
+			isTextareaChanged.current = true;
+		};
+	};
 
 	React.useEffect(() => {
-		if (isMounted.current === true) {
+		if (isMounted.current === true && isTextareaChanged.current === true) {
 			dispatch(fetchPucara(stringCodes));
-		}
+		};
 		isMounted.current = true;
-	}, [dispatch, stringCodes])
+	}, [dispatch, stringCodes]);
 
 	const onClickTimes = () => {
-		qwe.current = setInterval(onClickShowMore, 5000);
-	}
+		timerId.current = setInterval(onClickShowMore, 10000);
+	};
 
-	if (endValue === arrayCodes.length) {
-		clearInterval(qwe.current);
-	}
-
-	// var sourceText = 'Malta BelgaStar 33 cl Bandeja x 24';
-	// var sourceLang = 'es';
-	// var targetLang = 'ru';
-
-	// var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
-
-	// const onClickLang = async () => {
-	// 	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
-	// 	const { data } = await axios.get(url);
-	// 	return data[0][0][0];
-	// }
-
-
+	if (finishValue.current === arrayCodes.length + 1) {
+		clearInterval(timerId.current);
+		alert('Парсинг завершен!');
+	};
 
 	return (
 		<div className='app'>
@@ -81,8 +78,10 @@ function App() {
 						<div className='itemImage'>
 							<img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
 						</div>
-						<p className='itemTitle'>{obj.name}</p>
-						<RusLangItem text={obj.name} idx={index} />
+						<div className='itemLabel'>
+							<p className='itemTitle'>{obj.name}</p>
+							<RusLangItem text={obj.name} />
+						</div>
 						<div className='itemBottom'>
 							<span className='itemReference'>{obj.reference}</span>
 							<span className='itemPrice'>{obj.price}</span>
@@ -93,7 +92,6 @@ function App() {
 				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
 				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
 			</div>
-
 		</div>
 	);
 }
