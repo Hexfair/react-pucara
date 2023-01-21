@@ -95,7 +95,7 @@ function App() {
 						</div>
 					</div>)}
 			</div>
-			<div className='button'>
+			<div className='buttons'>
 				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
 				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
 

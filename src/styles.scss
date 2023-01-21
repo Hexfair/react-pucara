@@ -14,6 +14,10 @@ p {
 	max-width: 1400px;
 	width: 100%;
 	padding: 10px;
+
+	@media (max-width: 1400px) {
+		padding: calc(3px + (10 - 3) * ((100vw - 320px) / (1400 - 320)));
+	}
  }
 
  .top {
@@ -27,6 +31,16 @@ p {
 		color: rgb(77, 28, 111);
 		font-style: italic;
 		font-size: 14px;
+
+		@media (max-width: 700px) {
+			position: static;
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		@media (max-width: 1400px) {
+			font-size: calc(18px + (14 - 18) * ((100vw - 320px) / (1400 - 320)));
+		}
 	}
 
 	.textarea {
@@ -35,6 +49,10 @@ p {
 		resize: none;
 		margin-bottom: 20px;
 		padding: 5px;
+
+		@media (max-width: 700px) {
+			display: none;
+		}
 	}
  }
 
@@ -44,6 +62,10 @@ p {
 	gap: 20px;
 	flex-wrap: wrap;
 	margin-bottom: 20px;
+
+	@media (max-width: 1400px) {
+		gap: calc(5px + (20 - 5) * ((100vw - 320px) / (1400 - 320)));
+	}
 }
 
 .itemBlock {
@@ -55,6 +77,11 @@ p {
 	align-items: center;
 	border-radius: 10px;
 
+	@media (max-width: 1400px) {
+		width: calc(140px + (200 - 140) * ((100vw - 320px) / (1400 - 320)));
+		padding: calc(5px + (10 - 5) * ((100vw - 320px) / (1400 - 320)));
+	}
+
 	.itemImage {
 		margin-bottom: 5px;
 		min-width: 180px;
@@ -62,7 +89,15 @@ p {
 		background-repeat: no-repeat;
 		background-size: cover;
 		text-align: center;
-		flex: 0 1 180px;
+		flex-grow: 0;
+		flex-shrink: 1;
+		flex-basis: 180px;
+
+		@media (max-width: 1400px) {
+			min-width: calc(110px + (180 - 110) * ((100vw - 320px) / (1400 - 320)));
+			flex-basis: calc(110px + (180 - 110) * ((100vw - 320px) / (1400 - 320)));
+			margin-bottom: calc(0px + (5 - 0) * ((100vw - 320px) / (1400 - 320)));
+		}
 
 		img {
 			width:100%;
@@ -79,6 +114,14 @@ p {
 		font-weight: 500;
 		color: rgb(41, 2, 68);
 		margin-bottom: 3px;
+
+		@media (max-width: 1400px) {
+			font-size: calc(12px + (15 - 12) * ((100vw - 320px) / (1400 - 320)));
+		}
+
+		@media (max-width: 700px) {
+			font-weight: 400;
+		}
 	}
 
 	.itemBottom {
@@ -91,13 +134,32 @@ p {
 			font-size: 13px;
 			font-weight: 400;
 			color: rgb(116, 114, 114);
+
+			@media (max-width: 1400px) {
+				font-size: calc(11px + (13 - 11) * ((100vw - 320px) / (1400 - 320)));
+			}
 		}
 
 		.itemPrice {
 			font-size: 15px;
 			font-weight: 500;
 			color: rgb(5, 7, 159);
+
+			@media (max-width: 1400px) {
+				font-size: calc(13px + (15 - 13) * ((100vw - 320px) / (1400 - 320)));
+			}
+
+			@media (max-width: 700px) {
+				font-weight: 400;
+			}
 		}
+	}
+}
+
+.buttons {
+	@media (max-width: 365px) {
+		display: flex;
+		flex-direction: column;
 	}
 }
 
@@ -110,6 +172,10 @@ p {
 	background-color: rgb(41, 2, 68);
 	color: rgb(248, 239, 229);
 
+	@media (max-width: 365px) {
+		margin-bottom: 10px;
+	}
+
 	&:active {
 		transform: translateY(2px);
 	}
@@ -120,6 +186,11 @@ p {
 	&:first-child{
 		margin-right: 20px;
 		background-color: rgb(2, 22, 88);
+
+		@media (max-width: 365px) {
+			margin-right: 0px;
+		}
+
 		&:hover {
 			background-color: rgb(16, 45, 142);
 		}
@@ -130,4 +201,10 @@ p {
 	margin-bottom: 15px;
 	font-size: 12px;
 	color: rgb(155, 151, 151);
+	font-weight: 400;
+
+	@media (max-width: 1400px) {
+		font-size: calc(11px + (12 - 11) * ((100vw - 320px) / (1400 - 320)));
+		margin-bottom: calc(7px + (15 - 7) * ((100vw - 320px) / (1400 - 320)));
+	}
 }
