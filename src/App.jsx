@@ -2,10 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPucara } from './redux/pucaraSlice';
 import { RusLangItem } from './RusLangItem';
+import noImage from './assets/no-image.png';
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig');
-const PORTION = 30;
+const PORTION = 8;
 
 //=========================================================================================================================
 
@@ -56,7 +57,7 @@ function App() {
 	}, [dispatch, stringCodes]);
 
 	const onClickTimes = () => {
-		timerId.current = setInterval(onClickShowMore, 10000);
+		timerId.current = setInterval(onClickShowMore, 12000);
 	};
 
 	if (finishValue.current >= arrayCodes.length + 1) {
@@ -66,33 +67,38 @@ function App() {
 
 	return (
 		<div className='app'>
-			<textarea
-				className='textarea'
-				placeholder='Вставьте список артикулов...'
-				value={codes}
-				onChange={onChangeTextArea}>
-			</textarea>
+			<div className='top'>
+				<span className='label'>Created by Denis P.</span>
+				<textarea
+					className='textarea'
+					placeholder='Вставьте список артикулов...'
+					value={codes}
+					onChange={onChangeTextArea}>
+				</textarea>
+			</div>
+
 			<div className='content'>
-				{items && items.map((obj, index) =>
-					<div key={obj.reference} className='itemBlock'>
+				{items && items.map((item) =>
+					<div key={item.reference} className='itemBlock'>
 						<div className='itemImage'>
-							{obj.imageUrl !== 'Ошибка загрузки'
-								? <img src={obj.imageUrl} alt='Ошибка загрузки изображения' />
-								: <p>Ошибка загрузки</p>}
+							{item.imageUrl !== 'Ошибка загрузки'
+								? <img src={item.imageUrl} alt='Ошибка загрузки изображения' />
+								: <img src={noImage} alt={item.name} className='noImage' />}
 						</div>
 						<div className='itemLabel'>
-							<p className='itemTitle'>{obj.name}</p>
-							<RusLangItem text={obj.name} />
+							<p className='itemTitle'>{item.name}</p>
+							<RusLangItem text={item.name} />
 						</div>
 						<div className='itemBottom'>
-							<span className='itemReference'>{obj.reference}</span>
-							<span className='itemPrice'>{obj.price}</span>
+							<span className='itemReference'>{item.reference}</span>
+							<span className='itemPrice'>{item.price}</span>
 						</div>
 					</div>)}
 			</div>
 			<div className='button'>
 				<button className="btn" onClick={onClickShowMore}>Загрузить/показать еще</button>
 				<button className="btn" onClick={onClickTimes}>Циклический поиск</button>
+
 			</div>
 		</div>
 	);
