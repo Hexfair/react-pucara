@@ -6,7 +6,8 @@ import noImage from './assets/no-image.png';
 //=========================================================================================================================
 
 const regex = new RegExp(/,/, 'ig');
-const PORTION = 8;
+const regex2 = new RegExp(/ /, 'ig');
+const PORTION = 20;
 
 //=========================================================================================================================
 
@@ -19,16 +20,22 @@ function App() {
 	// Логика получения данных из текстареа
 	const [codes, setCodes] = React.useState('');
 	const onChangeTextArea = (event) => setCodes(event.target.value);
-	const arrayCodes = codes.replace(regex, '.').split('\n');
-
+	const arrayCodes = codes.replace(regex, '.').replace(regex2, '').split('\n');
+	//
 	// Логика получения порций
 	const [startValue, setStartValue] = React.useState(0);
 	const [endValue, setEndValue] = React.useState(0);
 	let arrayCodesSlice = arrayCodes.slice(startValue, endValue);
 	let stringCodes = arrayCodesSlice.join(',');
 
+
 	const timerId = React.useRef();
 	const finishValue = React.useRef(0);
+
+	if (finishValue.current >= arrayCodes.length + 1) {
+		clearInterval(timerId.current);
+		alert('Парсинг завершен!');
+	};
 
 	const onClickShowMore = () => {
 		if (isTextareaChanged.current === true) {
@@ -60,10 +67,7 @@ function App() {
 		timerId.current = setInterval(onClickShowMore, 12000);
 	};
 
-	if (finishValue.current >= arrayCodes.length + 1) {
-		clearInterval(timerId.current);
-		alert('Парсинг завершен!');
-	};
+
 
 	return (
 		<div className='app'>

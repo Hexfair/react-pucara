@@ -13,6 +13,7 @@ export const fetchPucara = createAsyncThunk(
 
 const initialState = {
 	items: [],
+	itemsRef: [],
 	status: ''
 };
 
@@ -33,7 +34,13 @@ export const pucaraSlice = createSlice({
 					reference: item.reference || 'Ошибка загрузки',
 					imageUrl: item.cover?.medium?.url || item.cover?.small?.url || 'Ошибка загрузки'
 				}
-				state.items.push(obj);
+				console.log(obj.reference);
+				if (!state.itemsRef.includes(obj.reference)) {
+					state.items.push(obj);
+					state.itemsRef.push(obj.reference);
+				}
+
+
 			});
 			state.status = 'success';
 		});
