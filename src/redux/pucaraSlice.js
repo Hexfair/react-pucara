@@ -33,11 +33,107 @@ export const pucaraSlice = createSlice({
 		builder.addCase(fetchPucara.fulfilled, (state, action) => {
 			const arr = action.payload.products;
 			arr.forEach((item) => {
+
+				const strokeInitial = item.canonical_url?.slice(29);
+				let lastSimbol;
+				for (let i = 0; i < strokeInitial.length; i++) {
+					if (strokeInitial[i] === '/') {
+						lastSimbol = i;
+					}
+				}
+
+				const categoryInitial = strokeInitial.slice(0, lastSimbol);
+				let category;
+				switch (categoryInitial) {
+					case "refrescos-sodas":
+					case "jugos":
+					case "vinos":
+					case "destilados":
+					case "cervezas":
+					case "champagnes":
+					case "espumosos":
+					case "agua":
+					case "mixers":
+					case "ron":
+						category = 'drinks';
+						break;
+					case "automotriz":
+					case "cigarrillos":
+					case "ofimatica":
+					case "piensos-y-alimentos":
+					case "articulos":
+						category = 'different';
+						break;
+					case "mobiliario":
+					case "industrial":
+					case "electrodomesticos":
+					case "jardin-y-terrazas":
+					case "limpieza":
+					case "estuches-y-cestas":
+					case "accesorios":
+						category = 'house';
+						break;
+					case "personal":
+					case "cosmetica":
+						category = 'hygiene';
+						break;
+					case "carnicos":
+					case "conformados":
+					case "pescados-mariscos":
+					case "dulces-y-panes":
+					case "vegetales-y-papas":
+					case "helados":
+						category = 'freeze';
+						break;
+					case "encurtidos":
+					case "carnicas":
+					case "frutas":
+					case "vegetales":
+						category = 'conserve';
+						break;
+					case "cristaleria":
+					case "cuberteria":
+					case "vajilla":
+					case "desechables":
+					case "menaje-cocina":
+					case "pasteleria-y-horneado":
+						category = 'kitchen';
+						break;
+
+					case "aceites-y-vinagres":
+					case "cafe-e-infusiones":
+					case "cereales-desayuno":
+					case "especias-y-condimentos":
+					case "pastas-arroz-y-legumbres":
+					case "harinas-mezclas":
+					case "salsas":
+					case "quesnackssos":
+					case "embutidos":
+					case "mantequillasmargarinas":
+					case "leches-y-cremas":
+					case "quesos":
+						category = 'products';
+						break;
+					case "chocolates":
+					case "galletas-y-bizcochos":
+					case "caramelos":
+					case "turrones":
+						category = 'sweet';
+						break;
+
+					default:
+						category = 'different';
+						break;
+				}
+
+
 				const obj = {
 					name: item.name || 'Ошибка загрузки',
 					price: item.price || 'Ошибка загрузки',
 					reference: item.reference || 'Ошибка загрузки',
-					imageUrl: item.cover?.medium?.url || item.cover?.small?.url || 'Ошибка загрузки'
+					imageUrl: item.cover?.medium?.url || item.cover?.small?.url || 'Ошибка загрузки',
+					category: category,
+					subCategory: categoryInitial
 				}
 
 				if (!state.itemsRef.includes(item.reference)) {

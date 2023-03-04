@@ -4,7 +4,6 @@ import { setArrayCodes } from '../../redux/pucaraSlice';
 import { useDispatch } from 'react-redux';
 //=========================================================================================================================
 const regex = new RegExp(/,/, 'ig');
-const regex2 = new RegExp(/ /, 'ig');
 //=========================================================================================================================
 
 export const Textarea = () => {
@@ -15,7 +14,6 @@ export const Textarea = () => {
 		const arrayCodes = event.target.value.replace(regex, '.').split('\n');
 		dispatch(setArrayCodes(arrayCodes));
 	}
-	// .replace(regex2, '')
 	return (
 		<textarea
 			className='textarea'
