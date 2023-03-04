@@ -1,0 +1,11 @@
+.textarea {
+	width: 300px;
+	height: 30px;
+	resize: none;
+	margin-bottom: 20px;
+	padding: 5px;
+
+	@media (max-width: 700px) {
+		display: none;
+	}
+}

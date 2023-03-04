@@ -12,6 +12,7 @@ export const fetchPucara = createAsyncThunk(
 );
 
 const initialState = {
+	arrayCodes: [],
 	items: [],
 	itemsRef: [],
 	status: ''
@@ -20,7 +21,11 @@ const initialState = {
 export const pucaraSlice = createSlice({
 	name: 'pucara',
 	initialState,
-	reducers: {},
+	reducers: {
+		setArrayCodes: (state, action) => {
+			state.arrayCodes = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchPucara.pending, (state) => {
 			state.status = 'loading';
@@ -34,13 +39,11 @@ export const pucaraSlice = createSlice({
 					reference: item.reference || 'Ошибка загрузки',
 					imageUrl: item.cover?.medium?.url || item.cover?.small?.url || 'Ошибка загрузки'
 				}
-				console.log(obj.reference);
-				if (!state.itemsRef.includes(obj.reference)) {
+
+				if (!state.itemsRef.includes(item.reference)) {
 					state.items.push(obj);
-					state.itemsRef.push(obj.reference);
+					state.itemsRef.push(item.reference);
 				}
-
-
 			});
 			state.status = 'success';
 		});
@@ -50,5 +53,5 @@ export const pucaraSlice = createSlice({
 		});
 	},
 });
-
+export const { setArrayCodes } = pucaraSlice.actions;
 export default pucaraSlice.reducer;
