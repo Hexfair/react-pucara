@@ -57,16 +57,34 @@ function App() {
 		}
 	};
 
-	// <button class="categoryButton" onclick='show("all")'>ВСЕ</button>
-	// <button class="categoryButton" onclick='show("drinks")'>Напитки</button>
-	// <button class="categoryButton" onclick='show("products")'>Продукты</button>
-	// <button class="categoryButton" onclick='show("freeze")'>Заморозка</button>
-	// <button class="categoryButton" onclick='show("conserve")'>Консервы</button>
-	// <button class="categoryButton" onclick='show("sweet")'>Сладкое</button>
-	// <button class="categoryButton" onclick='show("hygiene")'>Гигиена</button>
-	// <button class="categoryButton" onclick='show("house")'>Для дома</button>
-	// <button class="categoryButton" onclick='show("kitchen")'>Кухня</button>
-	// <button class="categoryButton" onclick='show("different")'>Разное</button>
+	/*
+	<button class="categoryButton" onclick='show("all")'>ВСЕ</button>
+	<button class="categoryButton" onclick='show("drinks")'>Напитки</button>
+	<button class="categoryButton" onclick='show("alcohol")'>Алкоголь</button>
+	<button class="categoryButton" onclick='show("products")'>Продукты</button>
+	<button class="categoryButton" onclick='show("freeze")'>Заморозка</button>
+	<button class="categoryButton" onclick='show("conserve")'>Консервы</button>
+	<button class="categoryButton" onclick='show("sweet")'>Сладкое</button>
+	<button class="categoryButton" onclick='show("hygiene")'>Гигиена</button>
+	<button class="categoryButton" onclick='show("house")'>Для дома</button>
+	<button class="categoryButton" onclick='show("kitchen")'>Кухня</button>
+	<button class="categoryButton" onclick='show("different")'>Разное</button>
+	*/
+
+	/*
+	<div class='buttons'>
+		<button class="btn" onclick={onClickShowMore}>Загрузить/показать еще</button>
+		<button class="btn" onclick={onClickTimes}>Циклический поиск</button>
+	</div>
+	*/
+
+	/*
+	<button class="scrollUp" onclick={scrollToUp}>
+		<svg width="20" height="20" viewBox="0 -0.15 13.1 13.1" xmlns="http://www.w3.org/2000/svg">
+			<path d="m11.5 8.025-.85.85L6.55 4.8l-4.1 4.075-.85-.85 4.95-4.9 4.95 4.9Z" />
+		</svg>
+	</button>
+	*/
 
 	return (
 		<div className='app'>
@@ -77,6 +95,7 @@ function App() {
 
 			<button className="categoryButton" onClick={() => show("all")}>ВСЕ</button>
 			<button className="categoryButton" onClick={() => show("drinks")}>Напитки</button>
+			<button className="categoryButton" onClick={() => show("alcohol")}>Алкоголь</button>
 			<button className="categoryButton" onClick={() => show("products")}>Продукты</button>
 			<button className="categoryButton" onClick={() => show("freeze")}>Заморозка</button>
 			<button className="categoryButton" onClick={() => show("conserve")}>Консервы</button>

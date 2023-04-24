@@ -47,15 +47,17 @@ export const pucaraSlice = createSlice({
 				switch (categoryInitial) {
 					case "refrescos-sodas":
 					case "jugos":
+					case "agua":
+					case "mixers":
+						category = 'drinks';
+						break;
 					case "vinos":
-					case "destilados":
 					case "cervezas":
 					case "champagnes":
 					case "espumosos":
-					case "agua":
-					case "mixers":
 					case "ron":
-						category = 'drinks';
+					case "destilados":
+						category = 'alcohol';
 						break;
 					case "automotriz":
 					case "cigarrillos":
@@ -97,6 +99,8 @@ export const pucaraSlice = createSlice({
 					case "desechables":
 					case "menaje-cocina":
 					case "pasteleria-y-horneado":
+					case "utensilios":
+					case "horneado-y-pasteleria":
 						category = 'kitchen';
 						break;
 
@@ -112,6 +116,8 @@ export const pucaraSlice = createSlice({
 					case "mantequillasmargarinas":
 					case "leches-y-cremas":
 					case "quesos":
+					case "postres-lacteos":
+					case "snacks":
 						category = 'products';
 						break;
 					case "chocolates":
