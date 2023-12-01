@@ -151,7 +151,6 @@ export const pucaraSlice = createSlice({
 		});
 		builder.addCase(fetchPucara.rejected, (state) => {
 			state.status = 'error';
-			state.items = initialState.items;
 		});
 	},
 });
